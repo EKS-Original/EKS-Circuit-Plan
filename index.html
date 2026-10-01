@@ -23,7 +23,7 @@
                 <p class="text-xs text-slate-400">Professional Lighting (Lumen Method) & Power Circuit Allocator</p>
             </div>
             <div class="text-xs bg-slate-900 border border-slate-700 px-3 py-1 rounded-full text-slate-300">
-                Standards: CIBSE / IEC 60364 / BS 7671
+                Custom Input Mode • IEC 60364 / BS 7671
             </div>
         </div>
     </header>
@@ -31,27 +31,27 @@
     <!-- Main Container -->
     <main class="max-w-6xl mx-auto w-full p-4 sm:p-6 my-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-        <!-- SECTION 1: LIGHTING DESIGN (Lumen Method) -->
+        <!-- SECTION 1: LIGHTING DESIGN -->
         <section class="bg-slate-800/80 backdrop-blur border border-slate-700/80 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
             <div>
                 <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
                     <h2 class="text-lg font-semibold text-amber-300 flex items-center gap-2">
-                        💡 1. Lighting Design & Circuit Splitter
+                        💡 1. Custom Lighting Design
                     </h2>
                     <span class="text-xs bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-medium">Lumen Method</span>
                 </div>
 
                 <div class="space-y-4 text-sm">
-                    <!-- Room Type Selection -->
-                    <div>
-                        <label class="block text-slate-300 font-medium mb-1">Room Category / Type</label>
-                        <select id="roomType" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200 focus:ring-2 focus:ring-amber-500 focus:outline-none" onchange="updateDefaultLux()">
-                            <option value="100">Storage Room / Corridor (100 Lux)</option>
-                            <option value="200" selected>Living Room / Bedroom (200 Lux)</option>
-                            <option value="300">General Office / Classroom (300 Lux)</option>
-                            <option value="500">Detailed Drafting / Technical Work (500 Lux)</option>
-                            <option value="750">Precision Assembly / Operating Room (750 Lux)</option>
-                        </select>
+                    <!-- Custom Room & Lux Input -->
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="col-span-2">
+                            <label class="block text-slate-300 font-medium mb-1">Room / Area Name</label>
+                            <input type="text" id="roomName" placeholder="e.g., Master Bedroom" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200 focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-slate-300 font-medium mb-1">Target Lux (lx)</label>
+                            <input type="number" id="targetLux" value="200" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-center text-slate-200 focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                        </div>
                     </div>
 
                     <!-- Room Dimensions -->
@@ -104,7 +104,7 @@
                             <input type="number" id="lampWatt" value="18" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-center text-slate-200">
                         </div>
                         <div>
-                            <label class="block text-slate-300 text-xs mb-1">Efficacy (Lumen / Watt)</label>
+                            <label class="block text-slate-300 text-xs mb-1">Efficacy (lm/W)</label>
                             <input type="number" id="lumenPerWatt" value="90" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-center text-slate-200">
                         </div>
                     </div>
@@ -118,7 +118,7 @@
             <!-- Lighting Results Box -->
             <div id="lightingResult" class="mt-4 hidden bg-slate-900/90 border border-amber-500/30 rounded-xl p-4 text-xs space-y-2">
                 <div class="font-semibold text-amber-300 border-b border-slate-800 pb-1 flex justify-between">
-                    <span>Lighting Design Summary</span>
+                    <span id="resRoomName">Lighting Summary</span>
                     <span id="resLuxLabel"></span>
                 </div>
                 <div class="grid grid-cols-2 gap-2 text-slate-300">
@@ -136,49 +136,47 @@
             <div>
                 <div class="flex items-center justify-between border-b border-slate-700 pb-3 mb-4">
                     <h2 class="text-lg font-semibold text-emerald-300 flex items-center gap-2">
-                        🔌 2. Power Socket & Load Circuit Splitter
+                        🔌 2. Custom Power Circuit Splitter
                     </h2>
                     <span class="text-xs bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-medium">BS 7671 Safety</span>
                 </div>
 
                 <div class="space-y-4 text-sm">
-                    <!-- Load Type Classification -->
-                    <div>
-                        <label class="block text-slate-300 font-medium mb-1">Load / Appliance Category</label>
-                        <select id="loadCategory" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200 focus:ring-2 focus:ring-emerald-500 focus:outline-none" onchange="togglePowerDefaults()">
-                            <option value="general">General Purpose 13A Socket Outlets (Ring/Radial)</option>
-                            <option value="ac">Air Conditioner (Dedicated Line)</option>
-                            <option value="waterpump">Water Pump / Motor (Dedicated Line)</option>
-                            <option value="waterheater">Instant Water Heater (Dedicated Line)</option>
-                            <option value="heavy">Heavy Appliance / Kitchen Equipment (15A/20A+)</option>
-                        </select>
+                    <!-- Custom Load Name & Circuit Type -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-slate-300 font-medium mb-1">Load / Appliance Name</label>
+                            <input type="text" id="loadName" placeholder="e.g., 2HP Air-con" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-slate-300 font-medium mb-1">Circuit Application</label>
+                            <select id="circuitType" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-200 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                                <option value="general">General Sockets (Grouped/Ring)</option>
+                                <option value="dedicated" selected>Dedicated Appliance (Single Line)</option>
+                            </select>
+                        </div>
                     </div>
 
                     <!-- Socket / Outlet Rating -->
                     <div class="grid grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-slate-300 text-xs mb-1">Socket Rating Type</label>
+                            <label class="block text-slate-300 text-xs mb-1">Socket/Breaker Type</label>
                             <select id="socketType" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-slate-200">
-                                <option value="13">13A UK Switched Socket</option>
-                                <option value="15" selected>15A Round Pin Socket</option>
-                                <option value="32">32A Industrial / Commando</option>
+                                <option value="13">13A UK Socket</option>
+                                <option value="15" selected>15A / 16A Outlet</option>
+                                <option value="20">20A / 32A DP Switch</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-slate-300 text-xs mb-1">Estimated Load per Point (W)</label>
-                            <input type="number" id="estWattPerPoint" value="2000" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-center text-slate-200">
+                            <input type="number" id="estWattPerPoint" value="2500" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-center text-slate-200">
                         </div>
                     </div>
 
                     <!-- Quantity of Outlets -->
                     <div>
-                        <label class="block text-slate-300 text-xs mb-1">Total Number of Outlets / Points in Zone</label>
-                        <input type="number" id="socketQty" value="6" min="1" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-center text-slate-200">
-                    </div>
-
-                    <!-- Safety & Diversity Note -->
-                    <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-700/50 text-xs text-slate-400">
-                        🛡️ <strong class="text-slate-300">Design Rule:</strong> Dedicated loads (AC, Water Pumps, Heaters) are automatically segregated onto dedicated single-phase final circuits with appropriate MCB/RCBO ratings per safety regulations.
+                        <label class="block text-slate-300 text-xs mb-1">Total Number of Points / Units</label>
+                        <input type="number" id="socketQty" value="1" min="1" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-center text-slate-200">
                     </div>
                 </div>
             </div>
@@ -190,11 +188,11 @@
             <!-- Power Results Box -->
             <div id="powerResult" class="mt-4 hidden bg-slate-900/90 border border-emerald-500/30 rounded-xl p-4 text-xs space-y-2">
                 <div class="font-semibold text-emerald-300 border-b border-slate-800 pb-1 flex justify-between">
-                    <span>Power Circuit Distribution Summary</span>
-                    <span id="resLoadCategoryLabel"></span>
+                    <span id="resLoadName">Power Distribution Summary</span>
+                    <span id="resCircuitTypeLabel" class="text-[10px] bg-slate-800 px-2 py-0.5 rounded"></span>
                 </div>
                 <div class="grid grid-cols-2 gap-2 text-slate-300">
-                    <div>Total Estimated Load: <strong id="resTotalPower" class="text-white"></strong></div>
+                    <div>Total Connected Load: <strong id="resTotalPower" class="text-white"></strong></div>
                     <div>Required Circuits: <strong id="resPowerCircuits" class="text-white text-emerald-400"></strong></div>
                     <div>Recommended MCB: <strong id="resMcbRating" class="text-white"></strong></div>
                     <div>Cable Sizing (Cu/PVC): <strong id="resCableSize" class="text-white"></strong></div>
@@ -206,19 +204,14 @@
 
     <!-- Footer -->
     <footer class="bg-slate-950 border-t border-slate-800 py-4 text-center text-xs text-slate-500">
-        EKS Original Engineering Tools • Built for Professional Electrical Site Engineers & Designers
+        EKS Original Engineering Tools • Built for Professional Electrical Site Engineers
     </footer>
 
     <!-- Calculation Scripts -->
     <script>
-        function updateDefaultLux() {
-            // Room type dropdown value directly matches standard lux
-            const val = document.getElementById('roomType').value;
-            // Can be extended if needed
-        }
-
         function calculateLighting() {
-            const lux = parseFloat(document.getElementById('roomType').value);
+            let roomName = document.getElementById('roomName').value || "Unnamed Room";
+            const lux = parseFloat(document.getElementById('targetLux').value);
             const length = parseFloat(document.getElementById('roomLength').value);
             const width = parseFloat(document.getElementById('roomWidth').value);
             const height = parseFloat(document.getElementById('roomHeight').value);
@@ -230,40 +223,38 @@
             const lampWatt = parseFloat(document.getElementById('lampWatt').value);
             const lumenPerWatt = parseFloat(document.getElementById('lumenPerWatt').value);
 
-            if (!length || !width || !height || !lampWatt || !lumenPerWatt) {
+            if (!lux || !length || !width || !height || !lampWatt || !lumenPerWatt) {
                 alert("Please fill in all valid dimensions and fixture parameters.");
                 return;
             }
 
             const area = length * width;
             
-            // Room Index (K) calculation for normal direct lighting
-            const workingPlaneHeight = 0.8; // standard desk height 0.8m
+            // Room Index (K) calculation
+            const workingPlaneHeight = 0.8; 
             const h = height - workingPlaneHeight;
             const roomIndex = (length * width) / (h * (length + width));
 
-            // Utilization Factor (UF) estimation based on reflectance & room index approximation
+            // Utilization Factor (UF)
             let baseUF = 0.4 + (ceilingReflect * 0.15) + (wallReflect * 0.1);
             let uf = Math.min(Math.max(baseUF * (roomIndex / (roomIndex + 1.2)), 0.3), 0.8);
 
-            // Maintenance Factor (MF) - standard clean/normal environment = 0.8
+            // Maintenance Factor (MF)
             const mf = 0.8;
 
-            // Total Lumens Required = (Lux * Area) / (UF * MF)
+            // Total Lumens Required
             const totalLumens = (lux * area) / (uf * mf);
-
-            // Lumen output per single lamp fixture
             const singleLampLumen = lampWatt * lumenPerWatt;
 
-            // Number of fixtures
             const totalFixtures = Math.ceil(totalLumens / singleLampLumen);
             const totalLoadWatts = totalFixtures * lampWatt;
 
-            // Circuit division rule: Max 10 to 12 lighting points per 10A lighting circuit (Standard practice)
+            // Circuit division (10 points max per 10A lighting circuit)
             const maxPointsPerCircuit = 10;
             const lightingCircuits = Math.ceil(totalFixtures / maxPointsPerCircuit);
 
             // Render Results
+            document.getElementById('resRoomName').innerText = roomName;
             document.getElementById('resLuxLabel').innerText = `${lux} Lux Target`;
             document.getElementById('resLumens').innerText = Math.round(totalLumens).toLocaleString() + ' lm';
             document.getElementById('resFixtures').innerText = totalFixtures + ' Units';
@@ -273,38 +264,9 @@
             document.getElementById('lightingResult').classList.remove('hidden');
         }
 
-        function togglePowerDefaults() {
-            const cat = document.getElementById('loadCategory').value;
-            const estWattInput = document.getElementById('estWattPerPoint');
-            const socketTypeInput = document.getElementById('socketType');
-            const qtyInput = document.getElementById('socketQty');
-
-            if (cat === 'ac') {
-                estWattInput.value = 2500; // e.g., 1.5 - 2 HP AC
-                socketTypeInput.value = 15;
-                qtyInput.value = 1;
-            } else if (cat === 'waterpump') {
-                estWattInput.value = 1500;
-                socketTypeInput.value = 15;
-                qtyInput.value = 1;
-            } else if (cat === 'waterheater') {
-                estWattInput.value = 3500;
-                socketTypeInput.value = 15;
-                qtyInput.value = 1;
-            } else if (cat === 'heavy') {
-                estWattInput.value = 3000;
-                socketTypeInput.value = 32;
-                qtyInput.value = 1;
-            } else {
-                estWattInput.value = 250; // standard general socket allowance per point under diversity
-                socketTypeInput.value = 13;
-                qtyInput.value = 6;
-            }
-        }
-
         function calculatePower() {
-            const cat = document.getElementById('loadCategory').value;
-            const socketType = document.getElementById('socketType').value;
+            let loadName = document.getElementById('loadName').value || "General Load";
+            const circuitType = document.getElementById('circuitType').value;
             const estWatt = parseFloat(document.getElementById('estWattPerPoint').value);
             const qty = parseInt(document.getElementById('socketQty').value);
 
@@ -318,37 +280,37 @@
             let mcb = "16A MCB";
             let cable = "2.5 mm² Cu/PVC";
 
-            if (cat === 'general') {
-                // BS 7671 Ring final circuit can serve unlimited floor area up to 100 sq.m with 32A MCB, or radial up to 50 sq.m with 20A/32A.
-                // Let's apply standard radial/ring rule: Max 20A for radial (2.5 sq.mm) or 32A ring (2.5 sq.mm).
+            if (circuitType === 'general') {
+                // Grouped General Socket Rules
                 if (totalPower <= 4600) {
                     circuits = 1;
                     mcb = "20A MCB (Radial)";
                     cable = "2.5 mm² Cu/PVC";
                 } else {
-                    circuits = Math.ceil(totalPower / 7360); // 32A at 230V = 7360W max per ring
+                    circuits = Math.ceil(totalPower / 7360); // 32A capacity approx
                     mcb = "32A MCB (Ring / Radial)";
                     cable = "4.0 mm² Cu/PVC";
                 }
             } else {
-                // Dedicated loads (AC, Water pump, Heater)
-                circuits = qty; // Each dedicated appliance gets its own line
-                if (totalPower <= 3450) {
-                    mcb = "16A / 20A MCB (Dedicated)";
+                // Dedicated Line Rules (1 Circuit per item)
+                circuits = qty; 
+                if (estWatt <= 3450) {
+                    mcb = "16A / 20A MCB";
                     cable = "2.5 mm² Cu/PVC";
-                } else if (totalPower <= 6000) {
-                    mcb = "32A MCB (Dedicated)";
+                } else if (estWatt <= 6000) {
+                    mcb = "32A MCB";
                     cable = "4.0 mm² Cu/PVC";
                 } else {
-                    mcb = "40A+ MCB (Heavy Duty)";
+                    mcb = "40A+ MCB";
                     cable = "6.0 mm² Cu/PVC+";
                 }
             }
 
             // Render Results
-            document.getElementById('resLoadCategoryLabel').innerText = document.getElementById('loadCategory').options[document.getElementById('loadCategory').selectedIndex].text;
+            document.getElementById('resLoadName').innerText = loadName;
+            document.getElementById('resCircuitTypeLabel').innerText = circuitType === 'general' ? 'Grouped Network' : 'Dedicated Line(s)';
             document.getElementById('resTotalPower').innerText = totalPower.toLocaleString() + ' W';
-            document.getElementById('resPowerCircuits').innerText = circuits + ' Dedicated Line(s)';
+            document.getElementById('resPowerCircuits').innerText = circuits + ' Circuit(s)';
             document.getElementById('resMcbRating').innerText = mcb;
             document.getElementById('resCableSize').innerText = cable;
 
